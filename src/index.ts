@@ -9,6 +9,8 @@
  */
 
 import console = require("console");
+import type UnderlyingByteSource = require("stream/web");
+import type web = require("stream/web");
 
 //variable var te deja visualizarlo desde cualquier bloque
 
@@ -228,6 +230,23 @@ console.log(afrutas.includes("pera"))
 
 console.log(afrutas.find((value:string)=> { return value.length > 5;}))
 
+function buscar (frutas:string[]):string|undefined{
+
+  for(let x = 0; x < frutas.length; x++){
+    const valorX = frutas[x];
+    if (valorX!=undefined && valorX.length > 5){
+      return valorX;
+      break;
+    }
+  }
+}
+
+//NOT NULL ASSERTION
+//valor[x]!.length()
+
+//valor[x]?.length()
+
+//console.log(&{frutas ?? ""})
 //FINDINDEX: busca el indice del primer elemento que cumple una determinada condicion
 console.log(afrutas.findIndex((value:string)=> { return value.length > 5;}))
 
@@ -303,8 +322,60 @@ arrayNombres.forEach(printelementos);
 function saludar (nombre:string, apellido?:string){
   apellido != undefined ? console.log(`Hola ${nombre} ${apellido}`) : console.log(`Hola ${nombre} `)
 
-  //console.log(`Hola ${nombre} ${apellido ?? ""}`)
+  console.log(`Hola ${nombre} ${apellido ?? ""}`)
 }
 
 saludar("Alvaro");
 saludar("Alvaro","Villatoro")
+
+function potencia (base:number, exponente:number=2){
+  return base ** exponente;
+}
+
+console.log(potencia(2));
+console.log(potencia(2,3));
+
+//Función flecha
+
+const flecha = (a:number)=> {return a}
+console.log(flecha(10));
+
+//Funcion calva
+function math (a:number,b:number,operacion:(a:number, b:number) => number):number{
+  return operacion(a,b);
+
+}
+const fsuma = (a:number, b:number) => {return a + b};
+const fresta = function ( a:number, b:number) {return a-b};
+
+console.log(math(4,7,fsuma));
+console.log(math(4,2,fresta));
+
+//Funciones con multiples parametros
+function multiplesparametros (...valores:number[]){
+  let suma = valores.reduce((previousValue:number,currentValue:number) => {return previousValue+=currentValue},0);
+  console.log(suma);
+}
+
+multiplesparametros(5,3,6,3,2);
+
+//Funciones asincronas
+
+interface DataApi{
+  message:string,
+  status:string
+}
+
+async function getApiData(url:string):Promise<DataApi> {
+  //Acceso a la API
+  const respuesta = await fetch(url);
+  const datos = respuesta.json() as Promise<DataApi>; 
+
+  return datos;
+}
+
+
+getApiData("https://dog.ceo/api/breeds/image/random")
+.then((valor:DataApi)=>{console.log(valor)})
+.catch((error)=>{console.log(error)});
+
