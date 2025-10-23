@@ -425,22 +425,27 @@ getApiData("https://dog.ceo/api/breeds/image/random")
 // //Type
 // //Es una plantilla que me va a permitir reutilizar código
 
-// type IdTemplate = `uid-${number}`;
+type Role = 'ADMIN' | 'USER' | 'MODERATOR'
 
-// type Usuario = {
-//   readonly id:IdTemplate,
-//   userName:string,
-//   email:string,
-//   estaActivo:boolean,
-//   profileURL?:string
-// }
+type IdTemplate = `uid-${number}`;
 
-// type PuestoTabajo = {
-//   puestoTrabajo:string,
-//   oficinaTrabajo:string
-// }
+type UserId = IdTemplate | number;
 
-// type Empleado = Usuario & PuestoTabajo;
+type Usuario = {
+  readonly id:UserId,
+  userName:string,
+  email:string,
+  estaActivo:boolean,
+  profileURL?:string,
+  rol:Role
+}
+
+type PuestoTabajo = {
+  puestoTrabajo:string,
+  oficinaTrabajo:string
+}
+
+type Empleado = Usuario & PuestoTabajo;
 
 // let ep1:Empleado = {
 //   id:1,
@@ -455,8 +460,194 @@ getApiData("https://dog.ceo/api/breeds/image/random")
 // console.log(ep1);
 // console.log(ep1.profileURL);
 
-type Saludo = `Hola ${string}`;
+// type Saludo = `Hola ${string}`;
 
-let mensaje:Saludo = "Hola Alvaro";
+// let mensaje:Saludo = "Hola Alvaro";
 
-console.log(mensaje);
+// console.log(mensaje);
+
+// let e1: Empleado = {
+//   id:'uid-1'
+// }
+
+/**
+ * Uniones
+ */
+
+// type Entidad = 'USUARIO' | 'PRODUCTO'
+// type Accion = 'CREAR' | 'MODIFICAR' | 'BORRAR' | 'LISTAR'
+
+// type Permisos = `${Entidad}_${Accion}`
+
+// let permiso1:Permisos = 'USUARIO_BORRAR'
+
+// console.log(permiso1);
+
+// /**
+//  * ENUMERADOS
+//  */  
+
+// enum Direccion {
+//   // Norte='1',
+//   // Sur='2',
+//   // Este='3',
+//   // Oeste='4'
+
+//   // Norte='1',
+//   // Sur,
+//   // Este,
+//   // Oeste
+
+//   // Norte=,
+//   // Sur,
+//   // Este,
+//   // Oeste
+
+//   Norte='NORTE',
+//   Sur='SUR',
+//   Este='ESTE',
+//   Oeste='OESTE'
+
+
+// }
+
+// console.log(Direccion.Oeste);
+
+// type TDireccion = 'NORTE' | 'SUR' | 'ESTE' | 'OESTE';
+
+// //En tiempo de compilacion el type desaparece y el enumerado sigue
+// let d1:TDireccion = 'NORTE'
+// let d2:Direccion = Direccion.Oeste;
+
+// enum EstadoTicket{
+//   Urgente,
+//   Abierto,
+//   EnProceso,
+//   Cerrado,
+// }
+
+// //GUARDADO EN BASE DE DATOS
+// let ticket = {
+//   nombre: 'Ticket 1',
+//   estado:EstadoTicket.Abierto
+// }
+
+// //OBETO SE RECUPERA DE BASE DE DATOS
+// //Estado -> 0
+// let estadoTicket = 0;
+
+// switch (estadoTicket){
+//   case 0:
+//     console.log('TICKET ABIERTO')
+//     break;
+//   case 1:
+//     console.log('TICKET EN PROCESO')
+//     break;
+//   case 2:
+//     console.log('TICKET CERRADO');
+//     break;
+//   case 3:
+//     console.log('TICKET URGENTE');
+//     break;
+//   default:
+//     break;
+// }
+
+// /*
+// * INTERFACES  
+// */
+
+// type idCoche = `id-coche-${number}`
+// interface Vehiculos {
+//   readonly id:idCoche,
+//   color?:string,
+//   marca:string,
+//   modelo:string,
+//   anyo:number,
+//   muestraInformacion: (propietario:string) => void
+// }
+
+// interface Coche extends Vehiculos{
+//   tamanioVolante:number,
+// }
+
+// interface Moto extends Vehiculos{
+//   longitudmanillar:number,
+// }
+
+// //CREACION DE OBJETOS
+
+// let miVehiculo:Vehiculos = {etiquetaEco:true, id:'id-coche-1',color: 'Amarillo',marca:'Seat',modelo:'Leon',anyo:2007,muestraInformacion: (propietario:string) => {console.log(`El propietario es ${propietario}`)} };
+
+// miVehiculo.muestraInformacion('Alvaro');
+
+// console.log(miVehiculo);
+
+// interface Vehiculos {
+//   etiquetaEco:boolean
+// }
+
+// interface OperacionMatematica {
+//   (a:number,b:number) : number;
+// }
+
+// const suma:OperacionMatematica = (a:number, b:number) => a+b;
+// const resta:OperacionMatematica = (a:number, b:number) => {return a-b}
+// const multiplicar:OperacionMatematica = function (a:number, b:number) {return a*b}
+
+
+/**
+ * CLASES
+ */
+
+// class Persona {
+//   constructor(public nombre:string, public apellido:string, public edad:number){}
+// }
+
+// interface IJugador {
+//   sueldo:number,
+//   estaActivo:boolean,
+//   equipo?:string | undefined
+// }
+
+// class Jugador extends Persona implements IJugador{
+//   //Propiedades
+
+//   constructor (public sueldo:number,nombre:string,apellido:string,edad:number, public estaActivo:boolean, public equipo?:string){super(nombre,apellido,edad)}
+
+//   muestraInformacion(){
+//     console.log(`El jugador ${this.nombre} ${this.apellido} tiene ${this.edad} años ${this.estaActivo?`esta activo en el ${this.equipo}`:'no esta activo'}`);
+//   }
+
+//   esMillonario(){
+//     return this.sueldo > 1000000 ? true : false;
+//   }
+// }
+
+// let j1 = new Jugador(100000000,'Lionel','Messi',40,true,'MiamiFC');
+
+// j1.muestraInformacion();
+// console.log(j1.esMillonario());
+
+/**
+ * Polimofismo
+ */
+
+interface Animal {
+  nombre:string,
+  emitirSonido():void;
+}
+
+class Perro implements Animal{
+  constructor(public nombre:string){}
+  emitirSonido(): void {
+    console.log('Guau Guau');
+  }
+}
+
+class Gato implements Animal{
+  constructor(public nombre:string){}
+  emitirSonido(): void {
+    console.log('Miau Miua')
+  }
+}
