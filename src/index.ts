@@ -633,21 +633,165 @@ type Empleado = Usuario & PuestoTabajo;
  * Polimofismo
  */
 
-interface Animal {
-  nombre:string,
-  emitirSonido():void;
+// interface Animal {
+//   nombre:string,
+//   emitirSonido():void;
+// }
+
+// class Perro implements Animal{
+//   constructor(public nombre:string){}
+//   emitirSonido(): void {
+//     console.log('Guau Guau');
+//   }
+// }
+
+// class Gato implements Animal{
+//   constructor(public nombre:string){}
+//   emitirSonido(): void {
+//     console.log('Miau Miua')
+//   }
+// }
+
+//Ejercicios 1
+// abstract class Producto{
+//   constructor(public id:number, public nombre:string, public precio:number){}
+
+//   public mostrarDetalle(){}
+
+// }
+
+// class Alimento extends Producto{
+//   constructor(public id:number, public nombre:string, public precio:number,public fechaCaducidad:string){
+//     super(id,nombre,precio);
+//   }
+
+//   public mostrarDetalle(): void {
+//     console.log(`Id: ${this.id} Nombre: ${this.nombre} Precio ${this.precio} FechaCaducidad ${this.fechaCaducidad}`)
+//   }
+// }
+
+// class Electronica extends Producto{
+//   constructor(public id:number, public nombre:string, public precio:number,public garantia:number){
+//     super(id,nombre,precio);
+//   }
+
+//   public mostrarDetalle(): void {
+//         console.log(`Id: ${this.id} Nombre: ${this.nombre} Precio ${this.precio} Garantia ${this.garantia}`)
+//   }
+// }
+
+// let a1 = new Alimento(1,'pepe',3,'04');
+// let e1 = new Electronica(1,'pepe',5,6);
+
+// a1.mostrarDetalle();
+// e1.mostrarDetalle();
+
+//Ejercicio 2
+
+// type Estado = 'PENDIENTE' | 'EN PROGRESO' | 'COMPLETADA'
+
+// type Tarea = {
+//   titulo:string,
+//   descripcion:string,
+//   estado:Estado,
+// }
+
+// class GestionTareas{
+//   private lista:Tarea[] = [];
+
+//   public anadirtarea(tarea:Tarea):void{
+//     this.lista.push(tarea)
+//   }
+
+//   public marcarCompleatada(titulo:string):void{
+//     const TareaBuscada:Tarea|undefined = this.lista.find((tarea:Tarea) => {return titulo.trim() == tarea.titulo.trim()})
+
+//     if (TareaBuscada != undefined){
+//       TareaBuscada.estado = 'COMPLETADA';
+//     }
+//   }
+
+//   public listarTareas(){
+//     return this.lista.filter((tarea:Tarea) => {return tarea.estado == 'PENDIENTE'})
+//   }
+
+// }
+
+// const gestion = new GestionTareas;
+
+// let t1:Tarea = {titulo:'Sintaxis', descripcion:'Aprender la sintaxis de TS',estado:'PENDIENTE'}
+// let t2:Tarea = {titulo:'Practicar', descripcion:'Practicar la sintaxis de TS',estado:'PENDIENTE'}
+// let t3:Tarea = {titulo:'Objetos', descripcion:'Trabajar usando objetos en TS',estado:'PENDIENTE'}
+
+// gestion.anadirtarea(t1);
+// gestion.anadirtarea(t2);
+// gestion.anadirtarea(t3);
+
+// console.log('Todo el array')
+// gestion.listarTareas().forEach((tarea:Tarea) => {console.log(tarea)});
+
+// gestion.marcarCompleatada('Objetos');
+
+// console.log('Sin objeto')
+// gestion.listarTareas().forEach((tarea:Tarea) => {console.log(tarea)});
+
+//Ejercicio API
+
+// type Hechizo = {
+//   id:string,
+//   name:string,
+//   descripcion:string;
+// }
+
+// async function obtenerObjetos():Promise<Hechizo[]> {
+//   const peticion = await fetch("https://hp-api.onrender.com/api/spells");
+//   const data = peticion.json() as Promise<Hechizo[]>
+//   return data;
+// }
+
+// obtenerObjetos().then((hechizo:Hechizo[]) => {console.log(hechizo)}).catch((error) => {console.log(error)})
+
+//Ejercicios clases abstractas
+
+type Estado = 'PENDIENTE' | 'EN PROGRESO' | 'COMPLETADA';
+
+type Tarea = {
+  titulo:string,
+  descripcion:string,
+  estado:Estado
 }
 
-class Perro implements Animal{
-  constructor(public nombre:string){}
-  emitirSonido(): void {
-    console.log('Guau Guau');
+class GestionTareas{
+  private tareas:Tarea[] = [];
+
+  public annadirTarea(tarea:Tarea):void {
+    this.tareas.push(tarea);
+  }
+
+  public marcarCompletada(titulo:string):void{
+    const tareaBuscada:Tarea|undefined = this.tareas.find((tarea:Tarea) => {return tarea.titulo.trim() == titulo.trim()});
+
+    if(tareaBuscada != undefined){
+      tareaBuscada.estado = 'COMPLETADA';
+    }
+  }
+
+  public listarTareas():Tarea[]{
+    return this.tareas.filter((tarea:Tarea) => {return tarea.estado == 'PENDIENTE'});
   }
 }
 
-class Gato implements Animal{
-  constructor(public nombre:string){}
-  emitirSonido(): void {
-    console.log('Miau Miua')
-  }
-}
+const gestion = new GestionTareas;
+
+let t1:Tarea = {titulo:'Sintaxis', descripcion:'Aprender la sintaxis de TS',estado:'PENDIENTE'}
+let t2:Tarea = {titulo:'Practicar', descripcion:'Practicar la sintaxis de TS',estado:'PENDIENTE'}
+let t3:Tarea = {titulo:'Objetos', descripcion:'Trabajar usando objetos en TS',estado:'PENDIENTE'}
+
+gestion.annadirTarea(t1);
+gestion.annadirTarea(t2);
+gestion.annadirTarea(t3);
+console.log("Pendientes")
+gestion.listarTareas().forEach((tarea:Tarea) =>{console.log(tarea)});
+console.log('Pendientes sin objetos')
+gestion.marcarCompletada('Objetos');
+gestion.listarTareas().forEach((tarea:Tarea) => {console.log(tarea)});
